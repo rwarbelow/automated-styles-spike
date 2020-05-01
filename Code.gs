@@ -1,6 +1,8 @@
 var ghToken = PropertiesService.getScriptProperties().getProperty('GH_TOKEN');
-
-function onFormSubmit(e) {
+var e = {
+  values: ['second', 'third', 'fourth', 'fifth', 'sixth', 'first']
+}
+function onFormSubmit() {
   // Sets variables for form values and new branch name
   var timestamp = e.values[0]
   var employer = e.values[1]
@@ -9,9 +11,11 @@ function onFormSubmit(e) {
   var overlay = e.values[4]
   var submittedByEmail = e.values[5]
   var branchName = employer + "-ep-styles"
+//  var apiUrl = "https://api.github.com/repos/GuiladEducationInc/partner-pages"
+  var apiUrl = "https://api.github.com/repos/rwarbelow/automated-styles-spike"
   
   // Fetches most recent commit from master and parses response to get SHA
-  var latestCommitOnMaster = UrlFetchApp.fetch("https://api.github.com/repos/rwarbelow/automated-styles-spike/commits/master?access_token=" + ghToken)
+  var latestCommitOnMaster = UrlFetchApp.fetch(apiUrl + "/commits/master?access_token=" + ghToken)
   var sha = JSON.parse(latestCommitOnMaster.getContentText()).sha
   
   // Creates a new branch, branching from most recent commit on master
@@ -24,21 +28,21 @@ function onFormSubmit(e) {
     "contentType": "application/json",
     "payload": JSON.stringify(payload)
   };
-  var createBranchResponse = UrlFetchApp.fetch("https://api.github.com/repos/rwarbelow/automated-styles-spike/git/refs?access_token=" + ghToken, options)
+  var createBranchResponse = UrlFetchApp.fetch(apiUrl + "/git/refs?access_token=" + ghToken, options)
   
   // Defines content for new stylesheet, creates file, and commits to new branch
   var stylesheetContents = "." + employer + "-cms-page {\n" +
              "  // Variables\n" +
              "  $dark: " +  dark + ";\n" +
              "  $base: " + base + ";\n" +
-             "  $accent: #f7f2ed;\n" +
+             "  $accent: #f7f2ed;\n\n" +
              "  // Color Utilities\n" +
              "  .base-bg { background-color: $dark; }\n" +
-             "  .accent-bg { background-color: $accent; }\n" +
+             "  .accent-bg { background-color: $accent; }\n\n" +
              "  .button {\n" +
              "    background-color: $base;\n" +
              "    color: $color-white-base;\n" +
-             "  }\n" +
+             "  }\n\n" +
              "  a {\n" +
              "    color: $color-black-base;\n" +
              "    &:hover, &:active {\n" +
@@ -47,14 +51,14 @@ function onFormSubmit(e) {
              "        fill: darken($base, 10%);\n" +
              "      }\n" +
              "    }\n" +
-             "  }\n" +
+             "  }\n\n" +
              "  .program-options {\n" +
              "    .multi-card:not(:first-child):not(:last-child) {\n" +
              "      .icon-container {\n" +
              "        background: $base;\n" +
              "      }\n" +
              "    }\n" +
-             "  }\n" +
+             "  }\n\n" +
              "  .sticky-nav {\n" +
              "    .login {\n" +
              "      color: $base;\n" +
@@ -62,10 +66,10 @@ function onFormSubmit(e) {
              "    .login:hover {\n" +
              "      color: darken($base, 10%);\n" +
              "    }\n" +
-             "  }\n" +
+             "  }\n\n" +
              "  .overlay {\n" +
              "    background-color: rgba(255,255,255," + overlay + ");\n" +
-             "  }\n" + 
+             "  }\n\n" + 
              "  svg {\n" +
              "    circle {\n" + 
              "      fill: $color-black-base;\n" +
@@ -86,7 +90,7 @@ function onFormSubmit(e) {
     "contentType": "application/json",
     "payload": JSON.stringify(payload)
   };
-  var addFileToBranchResponse = UrlFetchApp.fetch("https://api.github.com/repos/rwarbelow/automated-styles-spike/contents/" + employer + ".scss?access_token=" + ghToken, options);
+  var addFileToBranchResponse = UrlFetchApp.fetch(apiUrl + "/contents/app/assets" + employer + ".scss?access_token=" + ghToken, options);
 
   // Opens PR for new branch
   var payload = {
@@ -101,5 +105,5 @@ function onFormSubmit(e) {
     "contentType": "application/json",
     "payload": JSON.stringify(payload)
   };
-  var openPullRequestResponse = UrlFetchApp.fetch("https://api.github.com/repos/rwarbelow/automated-styles-spike/pulls?access_token=" + ghToken, options)
+  var openPullRequestResponse = UrlFetchApp.fetch(apiUrl + "/pulls?access_token=" + ghToken, options)
 }
