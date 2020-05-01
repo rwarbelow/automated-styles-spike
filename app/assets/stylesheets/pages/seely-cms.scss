@@ -1,7 +1,7 @@
 .seely-cms-page {
   // Variables
-  $dark-colors: #929292;
-  $base: #484848;
+  $dark: #112222;
+  $base: #887777;
   $accent: #f7f2ed;
 
   // Color Utilities
@@ -41,7 +41,7 @@
   }
 
   .overlay {
-    background-color: rgba(255,255,255,0.7);
+    background-color: rgba(255,255,255,0.9);
   }
 
 }
