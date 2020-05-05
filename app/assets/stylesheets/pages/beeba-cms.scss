@@ -1,0 +1,27 @@
+.beeba-cms-page {
+  // Variables
+  $dark: #222333;
+  $base: #888111;
+  $accent: ;
+
+  // Color Utilities
+  .base-bg { background-color: $dark; }
+  .button {
+    background-color: $base;
+    color: $color-white-base;
+  }
+
+  a {
+    color: $color-black-base;
+    &:hover, &:active {
+      color: darken($base, 10%);
+      & svg use {
+        fill: darken($base, 10%);
+      }
+    }
+  }
+
+  .program-options {
+    .multi-card:not(:first-child):not(:last-child) {
+      .icon-container {
+        background: $base;
