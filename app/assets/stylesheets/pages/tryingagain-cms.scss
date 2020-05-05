@@ -1,0 +1,44 @@
+.tryingagain-cms-page {
+  // Variables
+  $dark: #111888;
+  $base: #999111;
+  $accent: #999111;
+
+  // Color Utilities
+  .base-bg { background-color: $dark; }
+  .button {
+    background-color: $base;
+    color: $color-white-base;
+  }
+
+  a {
+    color: $color-black-base;
+    &:hover, &:active {
+      color: darken($base, 10%);
+      & svg use {
+        fill: darken($base, 10%);
+      }
+    }
+  }
+
+  .program-options {
+    .multi-card:not(:first-child):not(:last-child) {
+      .icon-container {
+        background: $accent;
+      }
+    }
+  }
+
+  .sticky-nav {
+    .login {
+      color: $base;
+    }
+    .login:hover {
+      color: darken($base, 10%);
+    }
+  }
+
+  .overlay {
+    background-color: rgba(255,255,255,0.3);
+  }
+}
