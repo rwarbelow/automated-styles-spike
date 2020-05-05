@@ -1,0 +1,43 @@
+.another-cms-page {
+  // Variables
+  $dark: #777111;
+  $base: #888888;
+  $accent: #000111;
+  // Color Utilities
+  .base-bg { background-color: $dark; }
+  .button {
+    background-color: $base;
+    color: $color-white-base;
+  }
+
+  a {
+    color: $color-black-base;
+    &:hover, &:active {
+      color: darken($base, 10%);
+      & svg use {
+        fill: darken($base, 10%);
+      }
+    }
+  }
+
+  .program-options {
+    .multi-card:not(:first-child):not(:last-child) {
+      .icon-container {
+        background: $accent;
+      }
+    }
+  }
+
+  .sticky-nav {
+    .login {
+      color: $base;
+    }
+    .login:hover {
+      color: darken($base, 10%);
+    }
+  }
+
+  .overlay {
+    background-color: rgba(255,255,255,0.6);
+  }
+}
